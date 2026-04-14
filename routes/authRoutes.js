@@ -12,7 +12,6 @@ router.get('/google/url', async (req, res) => {
   const url = getAuthUrl(userId);
   res.json({ url });
 });
-<<<<<<< HEAD
 // 2. GET /api/auth/google/callback
 // 2. GET /api/auth/google/callback
 router.get('/google/callback', async (req, res) => {
@@ -45,29 +44,8 @@ router.get('/google/callback', async (req, res) => {
   } catch (err) {
     console.error("❌ OAuth Update Error:", err);
     res.redirect(`https://reviews.avenirya.com/?error=oauth_failed`);
-=======
-
-// 2. GET /api/auth/google/callback -> Where Google sends the user back
-router.get('/google/callback', async (req, res) => {
-  const { code, state } = req.query; // 'state' is the userId we passed
-  try {
-    const { tokens } = await oauth2Client.getToken(code);
-    
-    // Save tokens to the User in MongoDB
-    await User.findByIdAndUpdate(state, {
-      googleRefreshToken: tokens.refresh_token,
-      googleConnected: true
-    });
-
-    // Redirect user back to the frontend dashboard
-    res.redirect(`http://localhost:3000/?connected=true`);
-  } catch (err) {
-    console.error("OAuth Error", err);
-    res.redirect(`http://localhost:3000/?error=oauth_failed`);
->>>>>>> d14f6c33b2c52dc1ef80db350caf70b49d704961
   }
 });
-
 // POST /api/auth/register
 router.post('/register', register);
 router.get('/me', auth, getMe);
